@@ -1,0 +1,30 @@
+{
+  "name": "comprehensible-wsdl",
+  "version": "0.1.0",
+  "description": "Generate a readable HTML5 reference page from a WSDL file",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "comprehensible-wsdl": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "keywords": [
+    "wsdl",
+    "soap",
+    "documentation",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "fast-xml-parser": "^5.4.1"
+  }
+}
