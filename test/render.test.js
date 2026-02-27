@@ -132,9 +132,25 @@ describe('renderHtml()', () => {
       assert.ok(out.includes('Adds two numbers'));
     });
 
-    it('should include input and output message names in the operation table', () => {
+    it('should render input and output message names in <h4> headings', () => {
       assert.ok(out.includes('>AddInput<'));
       assert.ok(out.includes('>AddOutput<'));
+    });
+
+    it('should expand input message fields inline inside the operation article', () => {
+      const articleStart = out.indexOf('id="op-Add"');
+      const articleEnd = out.indexOf('</article>', articleStart);
+      const article = out.slice(articleStart, articleEnd);
+      assert.ok(article.includes('<mark>a</mark>'));
+      assert.ok(article.includes('<mark>b</mark>'));
+      assert.ok(article.includes('First operand'));
+    });
+
+    it('should expand output message fields inline inside the operation article', () => {
+      const articleStart = out.indexOf('id="op-Add"');
+      const articleEnd = out.indexOf('</article>', articleStart);
+      const article = out.slice(articleStart, articleEnd);
+      assert.ok(article.includes('>result<') || article.includes('<mark>result</mark>'));
     });
 
     it('should render the DivisionByZero fault for the Divide operation', () => {
@@ -185,6 +201,14 @@ describe('renderHtml()', () => {
 
     it('should not render a <blockquote> when operation has no documentation', () => {
       assert.ok(!out.includes('<blockquote>'));
+    });
+
+    it('should expand SayHello input fields inline using type= references', () => {
+      const articleStart = out.indexOf('id="op-SayHello"');
+      const articleEnd = out.indexOf('</article>', articleStart);
+      const article = out.slice(articleStart, articleEnd);
+      assert.ok(article.includes('>name<') || article.includes('<mark>name</mark>'));
+      assert.ok(article.includes('>locale<'));
     });
   });
 

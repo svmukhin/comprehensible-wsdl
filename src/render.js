@@ -11,11 +11,17 @@
  *   <code>               – type names, namespaces, SOAPActions, URLs
  *   <mark>               – required fields (minOccurs >= 1)
  *
+ * Operations are rendered with their input/output messages expanded inline
+ * (fields resolved via resolve.js) so the reader does not have to jump
+ * between sections to understand a call's shape.
+ *
  * renderHtml(model, options) is the single public entry point.
  * options: { title?: string, inlineCss?: string }
  *   title     – overrides the page <title>; defaults to "{model.name} – WSDL Reference"
  *   inlineCss – when set, embeds this string in a <style> tag instead of the CDN <link>
  */
+
+import { buildIndex, resolveMessageFields } from './resolve.js';
 
 const CDN =
   'https://cdn.jsdelivr.net/npm/@svmukhin/edible-css@latest/dist/edible.min.css';
@@ -172,25 +178,46 @@ ${content}
 }
 
 /**
- * Renders one WSDL operation as an <article>.
+ * Renders a message's fields inline within an operation article.
+ * Shows a heading with the direction label and message name, then a field
+ * table (or enumeration list) for each resolved part. Falls back to just
+ * showing the message name when the message or its type is not in the index.
  *
- * @param {{ name, documentation, input, output, faults }} op
+ * @param {'Input'|'Output'} direction
+ * @param {string} messageName
+ * @param {{ typeByName: Map, messageByName: Map }} index
  * @returns {string}
  */
-function renderOperation(op) {
+function renderMessageInline(direction, messageName, index) {
+  const parts = resolveMessageFields(messageName, index);
+  const heading = `<h4>${direction} <small><code>${esc(messageName)}</code></small></h4>`;
+  if (!parts.length) return `${heading}\n<p><em>No matching message found.</em></p>`;
+  const body = parts.map((part) => {
+    if (part.fields.length) return renderFieldTable(part.fields);
+    if (part.enumerations.length) return renderEnumerations(part.enumerations);
+    return `<p><em>Type <code>${esc(part.typeName)}</code> – no fields defined.</em></p>`;
+  }).join('\n');
+  return `${heading}\n${body}`;
+}
+
+/**
+ * Renders one WSDL operation as an <article>. Input and output messages are
+ * expanded inline via the cross-reference index so the reader sees actual
+ * field tables rather than bare message name references.
+ *
+ * @param {{ name, documentation, input, output, faults }} op
+ * @param {{ typeByName: Map, messageByName: Map }} index
+ * @returns {string}
+ */
+function renderOperation(op, index) {
   const faultList = op.faults.length
     ? `<h4>Faults</h4><ul>${op.faults.map((f) => `<li><strong>${esc(f.name)}</strong>: <code>${esc(f.message)}</code></li>`).join('')}</ul>`
     : '';
   return `<article id="op-${esc(op.name)}">
 <h3>${esc(op.name)}</h3>
 ${doc(op.documentation)}
-<table>
-<thead><tr><th>Direction</th><th>Message</th></tr></thead>
-<tbody>
-<tr><td>Input</td><td><code>${esc(op.input)}</code></td></tr>
-<tr><td>Output</td><td><code>${esc(op.output)}</code></td></tr>
-</tbody>
-</table>
+${renderMessageInline('Input', op.input, index)}
+${renderMessageInline('Output', op.output, index)}
 ${faultList}
 </article>`;
 }
@@ -199,11 +226,12 @@ ${faultList}
  * Renders the operations section.
  *
  * @param {object[]} operations
+ * @param {{ typeByName: Map, messageByName: Map }} index
  * @returns {string}
  */
-function renderOperations(operations) {
+function renderOperations(operations, index) {
   const content = operations.length
-    ? operations.map(renderOperation).join('\n')
+    ? operations.map((op) => renderOperation(op, index)).join('\n')
     : '<p><em>No operations defined.</em></p>';
   return `<section id="operations">
 <h2>Operations</h2>
@@ -272,6 +300,7 @@ ${content}
 export function renderHtml(model, options = {}) {
   const title = options.title ?? `${model.name} – WSDL Reference`;
   const date = new Date().toISOString().slice(0, 10);
+  const index = buildIndex(model);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -285,7 +314,7 @@ ${renderHeader(model)}
 <main>
 ${renderTypes(model.types)}
 ${renderMessages(model.messages)}
-${renderOperations(model.operations)}
+${renderOperations(model.operations, index)}
 ${renderBindings(model.bindings)}
 ${renderEndpoints(model.endpoints)}
 </main>
