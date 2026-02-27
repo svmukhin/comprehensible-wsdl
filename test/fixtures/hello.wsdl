@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Minimal "hello world" WSDL – hand-crafted for edge-case unit tests.
+  Covers: single operation, no faults, bare type reference (not element-wrapped),
+  missing documentation nodes, unicode in strings.
+-->
+<definitions
+  name="Hello"
+  targetNamespace="http://example.com/hello"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="http://example.com/hello"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+>
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/hello">
+
+      <xsd:complexType name="SayHelloRequest">
+        <xsd:sequence>
+          <xsd:element name="name"   type="xsd:string" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="locale" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="SayHelloResponse">
+        <xsd:sequence>
+          <!-- greeting may contain unicode: Привет, 你好, مرحبا -->
+          <xsd:element name="greeting" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+    </xsd:schema>
+  </types>
+
+  <message name="SayHelloIn">
+    <part name="body" type="tns:SayHelloRequest"/>
+  </message>
+  <message name="SayHelloOut">
+    <part name="body" type="tns:SayHelloResponse"/>
+  </message>
+
+  <portType name="HelloPortType">
+    <!-- Intentionally no <documentation> here – tests graceful missing-doc handling -->
+    <operation name="SayHello">
+      <input  message="tns:SayHelloIn"/>
+      <output message="tns:SayHelloOut"/>
+    </operation>
+  </portType>
+
+  <binding name="HelloSOAPBinding" type="tns:HelloPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="SayHello">
+      <soap:operation soapAction=""/>
+      <input>  <soap:body use="literal" namespace="http://example.com/hello"/> </input>
+      <output> <soap:body use="literal" namespace="http://example.com/hello"/> </output>
+    </operation>
+  </binding>
+
+  <service name="HelloService">
+    <port name="HelloPort" binding="tns:HelloSOAPBinding">
+      <soap:address location="http://example.com/hello"/>
+    </port>
+  </service>
+
+</definitions>

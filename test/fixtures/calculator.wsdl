@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Classic SOAP calculator service – used as a primary integration fixture.
+  Covers: complexType fields, multiple operations, SOAP 1.1 binding, documentation nodes.
+-->
+<definitions
+  name="Calculator"
+  targetNamespace="http://example.com/calculator"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="http://example.com/calculator"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+>
+
+  <documentation>A simple SOAP calculator service that supports basic arithmetic operations.</documentation>
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/calculator">
+
+      <xsd:element name="AddRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="a" type="xsd:double" minOccurs="1" maxOccurs="1">
+              <xsd:annotation><xsd:documentation>First operand.</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element name="b" type="xsd:double" minOccurs="1" maxOccurs="1">
+              <xsd:annotation><xsd:documentation>Second operand.</xsd:documentation></xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="AddResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" type="xsd:double" minOccurs="1" maxOccurs="1">
+              <xsd:annotation><xsd:documentation>Sum of a and b.</xsd:documentation></xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="DivideRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="dividend" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="divisor"  type="xsd:double" minOccurs="1" maxOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="DivideResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="MathFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="code"    type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:simpleType name="RoundingMode">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="FLOOR"/>
+          <xsd:enumeration value="CEILING"/>
+          <xsd:enumeration value="HALF_UP"/>
+          <xsd:enumeration value="HALF_DOWN"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+    </xsd:schema>
+  </types>
+
+  <!-- Messages -->
+  <message name="AddInput">
+    <part name="parameters" element="tns:AddRequest"/>
+  </message>
+  <message name="AddOutput">
+    <part name="parameters" element="tns:AddResponse"/>
+  </message>
+
+  <message name="DivideInput">
+    <part name="parameters" element="tns:DivideRequest"/>
+  </message>
+  <message name="DivideOutput">
+    <part name="parameters" element="tns:DivideResponse"/>
+  </message>
+
+  <message name="MathFaultMessage">
+    <part name="fault" element="tns:MathFault"/>
+  </message>
+
+  <!-- Port type -->
+  <portType name="CalculatorPortType">
+
+    <operation name="Add">
+      <documentation>Adds two numbers and returns their sum.</documentation>
+      <input  message="tns:AddInput"/>
+      <output message="tns:AddOutput"/>
+    </operation>
+
+    <operation name="Divide">
+      <documentation>Divides dividend by divisor. Raises MathFault on division by zero.</documentation>
+      <input  message="tns:DivideInput"/>
+      <output message="tns:DivideOutput"/>
+      <fault  name="DivisionByZero" message="tns:MathFaultMessage"/>
+    </operation>
+
+  </portType>
+
+  <!-- Binding -->
+  <binding name="CalculatorSOAPBinding" type="tns:CalculatorPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="Add">
+      <soap:operation soapAction="http://example.com/calculator/Add"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+
+    <operation name="Divide">
+      <soap:operation soapAction="http://example.com/calculator/Divide"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+      <fault name="DivisionByZero"> <soap:fault name="DivisionByZero" use="literal"/> </fault>
+    </operation>
+
+  </binding>
+
+  <!-- Service -->
+  <service name="CalculatorService">
+    <documentation>SOAP 1.1 endpoint for the Calculator service.</documentation>
+    <port name="CalculatorPort" binding="tns:CalculatorSOAPBinding">
+      <soap:address location="http://example.com/calculator"/>
+    </port>
+  </service>
+
+</definitions>
