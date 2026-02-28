@@ -14,6 +14,8 @@ path = [
   "package.json",
   ".markdownlint-cli2.yaml",
   "**.md",
+  ".prettierignore",
+  ".prettierrc.json"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Copyright (c) 2026 Sergei Mukhin"
