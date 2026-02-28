@@ -96,6 +96,9 @@ async function readStdin() {
  * @returns {Promise<string>}
  */
 async function fetchCss() {
+  if (process.env.COMPREHENSIBLE_CSS_FILE) {
+    return readFile(process.env.COMPREHENSIBLE_CSS_FILE, 'utf8');
+  }
   const res = await fetch(CDN_CSS).catch((err) => {
     process.stderr.write(`Warning: could not fetch edible.css (${err.message}). Falling back to CDN link.\n`);
     return null;

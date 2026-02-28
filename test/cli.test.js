@@ -133,4 +133,23 @@ describe('CLI', () => {
     });
   });
 
+  describe('--inline-css option', () => {
+    it('should embed a <style> tag and omit the CDN <link> when --inline-css is used', async () => {
+      const cssFile = join(tmpdir(), `cwsdl-css-${Date.now()}.css`);
+      try {
+        writeFileSync(cssFile, 'body{font-family:sans-serif}', 'utf8');
+        const { code, stdout } = await run(
+          [fixture('calculator.wsdl'), '--inline-css'],
+          { env: { ...process.env, COMPREHENSIBLE_CSS_FILE: cssFile } },
+        );
+        assert.equal(code, 0);
+        assert.ok(stdout.includes('<style>'));
+        assert.ok(stdout.includes('font-family'));
+        assert.ok(!stdout.includes('<link rel="stylesheet"'));
+      } finally {
+        if (existsSync(cssFile)) unlinkSync(cssFile);
+      }
+    });
+  });
+
 });
