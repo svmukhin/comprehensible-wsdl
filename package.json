@@ -4,7 +4,7 @@
   "description": "Generate a readable HTML5 reference page from a WSDL file",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "bin": {
     "comprehensible-wsdl": "./bin/cli.js"

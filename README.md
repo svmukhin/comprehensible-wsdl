@@ -41,7 +41,7 @@ npm install --save-dev comprehensible-wsdl
 npx comprehensible-wsdl service.wsdl -o docs.html
 ```
 
-**Requires Node.js ≥ 18.**
+**Requires Node.js ≥ 20.**
 
 ---
 
