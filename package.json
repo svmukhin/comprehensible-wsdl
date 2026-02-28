@@ -16,7 +16,7 @@
     "node": ">=20"
   },
   "bin": {
-    "comprehensible-wsdl": "./bin/cli.js"
+    "comprehensible-wsdl": "bin/cli.js"
   },
   "scripts": {
     "test": "node --test",
