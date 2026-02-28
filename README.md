@@ -161,6 +161,15 @@ npm test
 
 # Run a single test file
 node --test test/model.test.js
+
+# Lint (oxlint)
+npm run lint
+
+# Format in place (Prettier)
+npm run format
+
+# Check formatting without writing (useful in CI)
+npm run format:check
 ```
 
 Tests use the built-in `node:test` framework — no extra test runner needed.
