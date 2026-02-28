@@ -1,7 +1,16 @@
 {
-  "name": "comprehensible-wsdl",
+  "name": "@svmukhin/comprehensible-wsdl",
   "version": "0.1.0",
   "description": "Generate a readable HTML5 reference page from a WSDL file",
+  "author": "svmukhin",
+  "homepage": "https://github.com/svmukhin/comprehensible-wsdl#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svmukhin/comprehensible-wsdl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/svmukhin/comprehensible-wsdl/issues"
+  },
   "type": "module",
   "engines": {
     "node": ">=20"
