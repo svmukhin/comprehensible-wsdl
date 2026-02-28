@@ -15,13 +15,9 @@ import { renderHtml } from '../src/render.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const html = (name, opts) =>
-  renderHtml(
-    buildModel(parseWsdl(readFileSync(join(__dirname, 'fixtures', name), 'utf8'))),
-    opts,
-  );
+  renderHtml(buildModel(parseWsdl(readFileSync(join(__dirname, 'fixtures', name), 'utf8'))), opts);
 
 describe('renderHtml()', () => {
-
   describe('page structure', () => {
     const out = html('calculator.wsdl');
 
@@ -219,14 +215,11 @@ describe('renderHtml()', () => {
 
   describe('HTML escaping', () => {
     it('should escape angle brackets in service name', () => {
-      const raw = parseWsdl(readFileSync(
-        join(__dirname, 'fixtures', 'calculator.wsdl'), 'utf8')
-      );
+      const raw = parseWsdl(readFileSync(join(__dirname, 'fixtures', 'calculator.wsdl'), 'utf8'));
       raw['definitions']['@_name'] = '<script>alert(1)</script>';
       const out2 = renderHtml(buildModel(raw));
       assert.ok(!out2.includes('<script>alert(1)</script>'));
       assert.ok(out2.includes('&lt;script&gt;'));
     });
   });
-
 });

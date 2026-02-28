@@ -32,7 +32,6 @@ async function run(args, spawnOpts = {}) {
 }
 
 describe('CLI', () => {
-
   describe('basic invocation', () => {
     it('should exit with code 0 when given a valid WSDL file', async () => {
       const { code } = await run([fixture('calculator.wsdl')]);
@@ -143,10 +142,9 @@ describe('CLI', () => {
       const cssFile = join(tmpdir(), `cwsdl-css-${Date.now()}.css`);
       try {
         writeFileSync(cssFile, 'body{font-family:sans-serif}', 'utf8');
-        const { code, stdout } = await run(
-          [fixture('calculator.wsdl'), '--inline-css'],
-          { env: { ...process.env, COMPREHENSIBLE_CSS_FILE: cssFile } },
-        );
+        const { code, stdout } = await run([fixture('calculator.wsdl'), '--inline-css'], {
+          env: { ...process.env, COMPREHENSIBLE_CSS_FILE: cssFile },
+        });
         assert.equal(code, 0);
         assert.ok(stdout.includes('<style>'));
         assert.ok(stdout.includes('font-family'));
@@ -156,5 +154,4 @@ describe('CLI', () => {
       }
     });
   });
-
 });

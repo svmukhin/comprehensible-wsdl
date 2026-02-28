@@ -192,9 +192,17 @@ function parseXsd(xml) {
 function isXsdArrayTag(_tagName, _jPath, _isLeaf, _isAttribute) {
   if (_isAttribute) return false;
   return new Set([
-    'element', 'complexType', 'simpleType', 'enumeration',
-    'sequence', 'all', 'choice', 'import', 'include',
-    'annotation', 'documentation',
+    'element',
+    'complexType',
+    'simpleType',
+    'enumeration',
+    'sequence',
+    'all',
+    'choice',
+    'import',
+    'include',
+    'annotation',
+    'documentation',
   ]).has(_tagName);
 }
 

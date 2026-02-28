@@ -15,11 +15,9 @@ import { buildModel } from '../src/model.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = join(__dirname, 'fixtures');
 const fixture = (name) => readFileSync(join(fixturesDir, name), 'utf8');
-const model = async (name) =>
-  buildModel(await loadWsdl(fixture(name), { baseDir: fixturesDir }));
+const model = async (name) => buildModel(await loadWsdl(fixture(name), { baseDir: fixturesDir }));
 
 describe('loadWsdl()', () => {
-
   describe('self-contained WSDLs (no imports)', () => {
     it('should load calculator.wsdl and produce a model with 2 operations', async () => {
       const m = await model('calculator.wsdl');
@@ -120,5 +118,4 @@ describe('loadWsdl()', () => {
       );
     });
   });
-
 });

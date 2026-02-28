@@ -28,8 +28,7 @@
 
 import { buildIndex, resolveMessageFields } from './resolve.js';
 
-const CDN =
-  'https://cdn.jsdelivr.net/npm/@svmukhin/edible-css@latest/dist/edible.min.css';
+const CDN = 'https://cdn.jsdelivr.net/npm/@svmukhin/edible-css@latest/dist/edible.min.css';
 
 /**
  * Escapes a string for safe HTML text content and attribute values.
@@ -166,13 +165,17 @@ ${content}
  */
 function renderMessages(messages) {
   const content = messages.length
-    ? messages.map((msg) => {
-        const parts = msg.parts.map((p) => {
-          const ref = p.element || p.type;
-          return `<dd><strong>${esc(p.name)}</strong>: <code>${esc(ref)}</code>${p.element ? ' <small>(element)</small>' : ' <small>(type)</small>'}</dd>`;
-        }).join('\n');
-        return `<dt><strong>${esc(msg.name)}</strong></dt>\n${parts}`;
-      }).join('\n')
+    ? messages
+        .map((msg) => {
+          const parts = msg.parts
+            .map((p) => {
+              const ref = p.element || p.type;
+              return `<dd><strong>${esc(p.name)}</strong>: <code>${esc(ref)}</code>${p.element ? ' <small>(element)</small>' : ' <small>(type)</small>'}</dd>`;
+            })
+            .join('\n');
+          return `<dt><strong>${esc(msg.name)}</strong></dt>\n${parts}`;
+        })
+        .join('\n')
     : '<p><em>No messages defined.</em></p>';
   return `<section id="messages">
 <h2>Messages</h2>
@@ -197,11 +200,13 @@ function renderMessageInline(direction, messageName, index) {
   const parts = resolveMessageFields(messageName, index);
   const heading = `<h4>${direction} <small><code>${esc(messageName)}</code></small></h4>`;
   if (!parts.length) return `${heading}\n<p><em>No matching message found.</em></p>`;
-  const body = parts.map((part) => {
-    if (part.fields.length) return renderFieldTable(part.fields);
-    if (part.enumerations.length) return renderEnumerations(part.enumerations);
-    return `<p><em>Type <code>${esc(part.typeName)}</code> – no fields defined.</em></p>`;
-  }).join('\n');
+  const body = parts
+    .map((part) => {
+      if (part.fields.length) return renderFieldTable(part.fields);
+      if (part.enumerations.length) return renderEnumerations(part.enumerations);
+      return `<p><em>Type <code>${esc(part.typeName)}</code> – no fields defined.</em></p>`;
+    })
+    .join('\n');
   return `${heading}\n${body}`;
 }
 
@@ -252,11 +257,15 @@ ${content}
  */
 function renderBindings(bindings) {
   const content = bindings.length
-    ? bindings.map((b) => {
-        const rows = b.operations.map((op) =>
-          `<tr><td>${esc(op.name)}</td><td><code>${esc(op.soapAction)}</code></td></tr>`
-        ).join('\n');
-        return `<details>
+    ? bindings
+        .map((b) => {
+          const rows = b.operations
+            .map(
+              (op) =>
+                `<tr><td>${esc(op.name)}</td><td><code>${esc(op.soapAction)}</code></td></tr>`,
+            )
+            .join('\n');
+          return `<details>
 <summary><strong>${esc(b.name)}</strong> <small>${esc(b.protocol)} · ${esc(b.style)}</small></summary>
 <p>Type: <code>${esc(b.type)}</code> · Transport: <code>${esc(b.transport)}</code></p>
 <table>
@@ -264,7 +273,8 @@ function renderBindings(bindings) {
 <tbody>${rows}</tbody>
 </table>
 </details>`;
-      }).join('\n')
+        })
+        .join('\n')
     : '<p><em>No bindings defined.</em></p>';
   return `<section id="bindings">
 <h2>Bindings</h2>

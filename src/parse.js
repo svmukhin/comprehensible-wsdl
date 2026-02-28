@@ -56,12 +56,27 @@ export function parseWsdl(xml) {
 function isArrayTag(_tagName, _jPath, _isLeaf, _isAttribute) {
   if (_isAttribute) return false;
   const arrayElements = new Set([
-    'operation', 'message', 'part', 'portType', 'binding', 'service', 'port',
-    'element', 'complexType', 'simpleType', 'enumeration',
-    'sequence', 'all', 'choice',
-    'import', 'include',
-    'fault', 'input', 'output',
-    'annotation', 'documentation',
+    'operation',
+    'message',
+    'part',
+    'portType',
+    'binding',
+    'service',
+    'port',
+    'element',
+    'complexType',
+    'simpleType',
+    'enumeration',
+    'sequence',
+    'all',
+    'choice',
+    'import',
+    'include',
+    'fault',
+    'input',
+    'output',
+    'annotation',
+    'documentation',
   ]);
   return arrayElements.has(_tagName);
 }

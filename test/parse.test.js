@@ -12,20 +12,15 @@ import { join, dirname } from 'node:path';
 import { parseWsdl } from '../src/parse.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const fixture = (name) =>
-  readFileSync(join(__dirname, 'fixtures', name), 'utf8');
+const fixture = (name) => readFileSync(join(__dirname, 'fixtures', name), 'utf8');
 
 describe('parseWsdl()', () => {
-
   it('should throw an error on empty string', () => {
     assert.throws(() => parseWsdl(''), /Failed to parse|missing <definitions>/);
   });
 
   it('should throw an error on non-WSDL XML', () => {
-    assert.throws(
-      () => parseWsdl('<foo><bar/></foo>'),
-      /missing <definitions>/,
-    );
+    assert.throws(() => parseWsdl('<foo><bar/></foo>'), /missing <definitions>/);
   });
 
   describe('calculator.wsdl', () => {
@@ -125,5 +120,4 @@ describe('parseWsdl()', () => {
       }
     });
   });
-
 });

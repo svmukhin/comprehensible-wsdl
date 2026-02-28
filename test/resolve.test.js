@@ -18,7 +18,6 @@ const model = (name) =>
   buildModel(parseWsdl(readFileSync(join(__dirname, 'fixtures', name), 'utf8')));
 
 describe('buildIndex()', () => {
-
   describe('calculator.wsdl', () => {
     const m = model('calculator.wsdl');
     const index = buildIndex(m);
@@ -45,11 +44,9 @@ describe('buildIndex()', () => {
       assert.equal(index.typeByName.get('NonExistent'), undefined);
     });
   });
-
 });
 
 describe('resolveMessageFields()', () => {
-
   describe('calculator.wsdl – element= references', () => {
     const m = model('calculator.wsdl');
     const index = buildIndex(m);
@@ -106,5 +103,4 @@ describe('resolveMessageFields()', () => {
       assert.equal(locale.minOccurs, '0');
     });
   });
-
 });

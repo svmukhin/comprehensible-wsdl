@@ -31,12 +31,9 @@ import { loadWsdl } from '../src/load.js';
 import { buildModel } from '../src/model.js';
 import { renderHtml } from '../src/render.js';
 
-const CDN_CSS =
-  'https://cdn.jsdelivr.net/npm/@svmukhin/edible-css@latest/dist/edible.min.css';
+const CDN_CSS = 'https://cdn.jsdelivr.net/npm/@svmukhin/edible-css@latest/dist/edible.min.css';
 
-const pkg = JSON.parse(
-  readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
-);
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
 const program = new Command();
 

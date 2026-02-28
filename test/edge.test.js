@@ -31,7 +31,6 @@ function html(name, opts) {
 }
 
 describe('edge cases', () => {
-
   describe('empty.wsdl – definitions with no content', () => {
     it('should parse without throwing', () => {
       assert.doesNotThrow(() => parseWsdl(fixture('empty.wsdl')));
@@ -189,7 +188,15 @@ describe('edge cases', () => {
 
     it('should not throw or loop for a self-referencing type name in parts', () => {
       const m = {
-        types: [{ name: 'Self', fields: [{ name: 'child', type: 'Self', minOccurs: '0', maxOccurs: '1', documentation: '' }], enumerations: [] }],
+        types: [
+          {
+            name: 'Self',
+            fields: [
+              { name: 'child', type: 'Self', minOccurs: '0', maxOccurs: '1', documentation: '' },
+            ],
+            enumerations: [],
+          },
+        ],
         messages: [{ name: 'M', parts: [{ name: 'p', element: '', type: 'Self' }] }],
         operations: [],
         bindings: [],
@@ -222,5 +229,4 @@ describe('edge cases', () => {
       assert.equal(m.operations.length, 0);
     });
   });
-
 });

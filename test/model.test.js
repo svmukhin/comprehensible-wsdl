@@ -17,7 +17,6 @@ const model = (name) =>
   buildModel(parseWsdl(readFileSync(join(__dirname, 'fixtures', name), 'utf8')));
 
 describe('buildModel()', () => {
-
   describe('calculator.wsdl', () => {
     const m = model('calculator.wsdl');
 
@@ -208,5 +207,4 @@ describe('buildModel()', () => {
       });
     });
   });
-
 });
