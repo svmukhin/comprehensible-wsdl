@@ -91,7 +91,7 @@ async function readStdin() {
 
 /**
  * Fetches the minified edible.css from the CDN and returns it as a string.
- * Exits with an error message if the network request fails.
+ * Throws if the network request fails so the caller can exit with an error.
  *
  * @returns {Promise<string>}
  */
@@ -100,9 +100,10 @@ async function fetchCss() {
     return readFile(process.env.COMPREHENSIBLE_CSS_FILE, 'utf8');
   }
   const res = await fetch(CDN_CSS).catch((err) => {
-    process.stderr.write(`Warning: could not fetch edible.css (${err.message}). Falling back to CDN link.\n`);
-    return null;
+    throw new Error(`could not fetch edible.css: ${err.message}`);
   });
-  if (!res || !res.ok) return undefined;
+  if (!res.ok) {
+    throw new Error(`could not fetch edible.css: HTTP ${res.status}`);
+  }
   return res.text();
 }
