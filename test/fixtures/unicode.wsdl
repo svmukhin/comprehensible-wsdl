@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  unicode.wsdl – exercises unicode characters throughout: service name,
+  operation name, documentation text, type names, and field names.
+  Also verifies that HTML output correctly escapes < > & " characters.
+-->
+<definitions
+  name="Ünïcödé&#x26;Service"
+  targetNamespace="http://example.com/unicode"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="http://example.com/unicode"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+>
+
+  <documentation>Сервис с поддержкой Юникода. 日本語 العربية &lt;test&gt;.</documentation>
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/unicode">
+      <xsd:complexType name="ПриветТип">
+        <xsd:annotation>
+          <xsd:documentation>Тип с полями на разных языках.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="имя" type="xsd:string" minOccurs="1" maxOccurs="1">
+            <xsd:annotation><xsd:documentation>Имя пользователя.</xsd:documentation></xsd:annotation>
+          </xsd:element>
+          <xsd:element name="メッセージ" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="greeting_lt_gt" type="xsd:string" minOccurs="0" maxOccurs="1">
+            <xsd:annotation><xsd:documentation>Field with &lt;angle brackets&gt; &amp; ampersand in docs.</xsd:documentation></xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+
+  <message name="ПриветВход">
+    <part name="parameters" type="tns:ПриветТип"/>
+  </message>
+  <message name="ПриветВыход">
+    <part name="result" type="xsd:string"/>
+  </message>
+
+  <portType name="ЮникодПортType">
+    <operation name="ПоздороватьсяOp">
+      <documentation>Возвращает приветствие. &lt;loud&gt; &amp; clear.</documentation>
+      <input  message="tns:ПриветВход"/>
+      <output message="tns:ПриветВыход"/>
+    </operation>
+  </portType>
+
+  <binding name="ЮникодBinding" type="tns:ЮникодПортType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ПоздороватьсяOp">
+      <soap:operation soapAction="http://example.com/unicode/ПоздороватьсяOp"/>
+    </operation>
+  </binding>
+
+  <service name="ЮникодService">
+    <port name="ЮникодPort" binding="tns:ЮникодBinding">
+      <soap:address location="http://example.com/unicode/service"/>
+    </port>
+  </service>
+
+</definitions>

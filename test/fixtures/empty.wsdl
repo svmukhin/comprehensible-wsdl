@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  empty.wsdl – a valid <definitions> element with no declared types,
+  messages, portTypes, bindings, or services.  Used to verify that the
+  toolchain handles absent sections gracefully without throwing.
+-->
+<definitions
+  name="EmptyService"
+  targetNamespace="http://example.com/empty"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+/>
