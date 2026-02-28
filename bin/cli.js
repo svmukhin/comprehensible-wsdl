@@ -19,8 +19,9 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { Command } from 'commander';
-import { parseWsdl } from '../src/parse.js';
+import { loadWsdl } from '../src/load.js';
 import { buildModel } from '../src/model.js';
 import { renderHtml } from '../src/render.js';
 
@@ -43,8 +44,10 @@ program
   .option('--inline-css', 'Embed edible.css inline (fully offline output)')
   .action(async (wsdlFile, opts) => {
     const xml = await readInput(wsdlFile);
+    const baseDir = wsdlFile === '-' ? process.cwd() : dirname(resolve(wsdlFile));
     const inlineCss = opts.inlineCss ? await fetchCss() : undefined;
-    const model = buildModel(parseWsdl(xml));
+    const raw = await loadWsdl(xml, { baseDir });
+    const model = buildModel(raw);
     const html = renderHtml(model, { title: opts.title, inlineCss });
     if (opts.output) {
       writeFileSync(opts.output, html, 'utf8');

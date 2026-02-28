@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  imported.wsdl – tests <xsd:import> cross-file schema resolution.
+  PersonType and Gender are defined in ./shared-types.xsd and must be visible
+  in the merged model after import resolution.
+-->
+<definitions
+  name="PersonService"
+  targetNamespace="http://example.com/person"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="http://example.com/person"
+  xmlns:ext="http://example.com/types"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+>
+
+  <documentation>Service that demonstrates cross-file XSD import resolution.</documentation>
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/person">
+
+      <!-- Import external type definitions from a sibling XSD file -->
+      <xsd:import namespace="http://example.com/types" schemaLocation="./shared-types.xsd"/>
+
+      <xsd:element name="GetPersonRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:string" minOccurs="1" maxOccurs="1">
+              <xsd:annotation><xsd:documentation>Unique person identifier.</xsd:documentation></xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="GetPersonResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="person" type="ext:PersonType" minOccurs="1" maxOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+    </xsd:schema>
+  </types>
+
+  <message name="GetPersonIn">
+    <part name="parameters" element="tns:GetPersonRequest"/>
+  </message>
+  <message name="GetPersonOut">
+    <part name="parameters" element="tns:GetPersonResponse"/>
+  </message>
+
+  <portType name="PersonPortType">
+    <operation name="GetPerson">
+      <documentation>Returns the person record for the given id.</documentation>
+      <input  message="tns:GetPersonIn"/>
+      <output message="tns:GetPersonOut"/>
+    </operation>
+  </portType>
+
+  <binding name="PersonSOAPBinding" type="tns:PersonPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetPerson">
+      <soap:operation soapAction="http://example.com/person/GetPerson"/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+
+  <service name="PersonService">
+    <port name="PersonPort" binding="tns:PersonSOAPBinding">
+      <soap:address location="http://example.com/person"/>
+    </port>
+  </service>
+
+</definitions>
