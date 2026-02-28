@@ -10,7 +10,8 @@
     "comprehensible-wsdl": "./bin/cli.js"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "lint": "oxlint src/ bin/ test/"
   },
   "files": [
     "bin/",
@@ -26,5 +27,8 @@
   "dependencies": {
     "commander": "^12.1.0",
     "fast-xml-parser": "^5.4.1"
+  },
+  "devDependencies": {
+    "oxlint": "^1.50.0"
   }
 }

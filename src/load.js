@@ -86,7 +86,7 @@ async function resolveXsdImports(schema, baseDir, visited) {
     visited.add(absLoc);
     const xsdXml = await fetchSource(absLoc);
     const importedSchema = parseXsd(xsdXml);
-    const importedBaseDir = baseDirOf(absLoc, baseDir);
+    const importedBaseDir = baseDirOf(absLoc);
     await resolveXsdImports(importedSchema, importedBaseDir, visited);
     mergeSchema(schema, importedSchema);
   }
@@ -109,7 +109,7 @@ async function resolveWsdlImports(defs, baseDir, visited) {
     if (visited.has(absLoc)) continue;
     visited.add(absLoc);
     const importedXml = await fetchSource(absLoc);
-    const importedRaw = await resolveWsdl(importedXml, baseDirOf(absLoc, baseDir), visited);
+    const importedRaw = await resolveWsdl(importedXml, baseDirOf(absLoc), visited);
     mergeWsdlDefs(defs, importedRaw['definitions']);
   }
 }
@@ -216,10 +216,9 @@ function absoluteLocation(loc, baseDir) {
  * the document at the given location.
  *
  * @param {string} absLoc  Absolute path or URL of the already-loaded file.
- * @param {string} fallback  Used when absLoc is a URL (can't dirname a URL).
  * @returns {string}
  */
-function baseDirOf(absLoc, fallback) {
+function baseDirOf(absLoc) {
   if (isUrl(absLoc)) {
     const url = new URL(absLoc);
     url.pathname = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1);
