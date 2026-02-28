@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * model.js – normalises the raw fast-xml-parser output into a plain JS model
  * that render.js can consume without knowing raw XML structure details.
  *

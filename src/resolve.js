@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * resolve.js – builds name-keyed lookup indexes from a normalised model and
  * provides helpers to follow cross-section references.
  *

@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * parse.js – thin wrapper around fast-xml-parser.
  *
  * Returns a raw JS object tree from a WSDL XML string.

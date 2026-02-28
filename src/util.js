@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * util.js – shared helpers used by model.js and render.js.
  *
  * stripNs: removes namespace prefix from attribute values like "tns:AddRequest"

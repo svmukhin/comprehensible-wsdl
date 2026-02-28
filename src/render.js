@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * render.js – converts the normalised model produced by model.js into a
  * self-contained HTML5 string styled by edible-css.
  *

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+  SPDX-License-Identifier: MIT 
+-->
+<!--
   Minimal "hello world" WSDL – hand-crafted for edge-case unit tests.
   Covers: single operation, no faults, bare type reference (not element-wrapped),
   missing documentation nodes, unicode in strings.

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+  SPDX-License-Identifier: MIT 
+-->
+<!--
   imported.wsdl – tests <xsd:import> cross-file schema resolution.
   PersonType and Gender are defined in ./shared-types.xsd and must be visible
   in the merged model after import resolution.

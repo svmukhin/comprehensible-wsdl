@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+/**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
 /**
  * cli.js – command-line entry point for comprehensible-wsdl.
  *

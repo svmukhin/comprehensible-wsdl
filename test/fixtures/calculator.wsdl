@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+  SPDX-License-Identifier: MIT 
+-->
+<!--
   Classic SOAP calculator service – used as a primary integration fixture.
   Covers: complexType fields, multiple operations, SOAP 1.1 binding, documentation nodes.
 -->

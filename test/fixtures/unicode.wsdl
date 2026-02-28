@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+  SPDX-License-Identifier: MIT 
+-->
+<!--
   unicode.wsdl – exercises unicode characters throughout: service name,
   operation name, documentation text, type names, and field names.
   Also verifies that HTML output correctly escapes < > & " characters.

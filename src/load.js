@@ -1,4 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
  * load.js – async WSDL loader that recursively resolves <xsd:import>,
  * <xsd:include>, and <wsdl:import> references before handing off to
  * buildModel().

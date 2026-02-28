@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+# SPDX-License-Identifier: MIT
+
+version = 1
+SPDX-PackageName = "edible-css"
+SPDX-PackageSupplier = "Sergei Mukhin <sergei_mukhin@outlook.com>"
+SPDX-PackageDownloadLocation = "https://github.com/svmukhin/edible-css"
+
+[[annotations]]
+path = [
+  "package-lock.json",
+  "node_modules/**",
+  ".gitignore",
+  "package.json",
+  ".markdownlint-cli2.yaml",
+  "**.md",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright (c) 2026 Sergei Mukhin"
+SPDX-License-Identifier = "MIT"

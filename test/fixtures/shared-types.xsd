@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  SPDX-FileCopyrightText: Copyright (c) 2026 Sergei Mukhin
+  SPDX-License-Identifier: MIT 
+-->
+<!--
   shared-types.xsd – standalone XSD imported by imported.wsdl.
   Contains a PersonType complex type and a Gender enum used to verify that
   types defined in external schemas are merged into the model.
